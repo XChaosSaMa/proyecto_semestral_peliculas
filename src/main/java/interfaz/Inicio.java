@@ -1,6 +1,7 @@
 package interfaz;
 
 import interfaz.administracion.Admin;
+import interfaz.empleados.Usuario;
 import java.util.Objects;
 import javax.swing.JOptionPane;
 
@@ -20,6 +21,7 @@ public class Inicio extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -43,7 +45,7 @@ public class Inicio extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 200, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 200, -1));
 
         jPasswordField1.setText("admin");
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
@@ -51,7 +53,7 @@ public class Inicio extends javax.swing.JFrame {
                 jPasswordField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 200, -1));
+        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 200, -1));
 
         jButton1.setText("Ingresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +77,10 @@ public class Inicio extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 100, -1));
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Ingrese su usuario y contraseña");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
+
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\PC\\Documents\\NetBeansProjects\\Peliculas\\src\\main\\java\\imagenes\\Inicio.jpg")); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(800, 600));
         jLabel2.setMinimumSize(new java.awt.Dimension(800, 600));
@@ -94,17 +100,22 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Admin admin = new Admin();
         Inicio inicio = new Inicio();
+        Usuario usuario = new Usuario();
         String x = jTextField1.getText();
         String y = String.valueOf(jPasswordField1.getPassword());
-        String usr = "admin";
-        String pass = "admin";
+        String usr = "usuario";
+        String pass = "usuario";
+        String usrad = "admin";
+        String passad = "admin";
         if(Objects.equals(x, usr) && Objects.equals(y, pass)){
+            usuario.setVisible(true);
+            dispose();
+        }
+        if(Objects.equals(x, usrad) && Objects.equals(y, passad)){
             admin.setVisible(true);
             dispose();
         }
-        else{
-            JOptionPane.showMessageDialog(inicio, "Usuario o Contraseña Incorrecta");
-        }
+        jLabel3.setText("Usuario o contraseña incorrecta");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -127,6 +138,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
