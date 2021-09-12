@@ -53,7 +53,7 @@ public class Administrar extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Adminsitrar Usuarios");
+        jButton2.setText("Administrar Empleados");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

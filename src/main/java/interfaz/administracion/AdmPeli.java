@@ -15,10 +15,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class AdmPeli extends javax.swing.JFrame {
+public class AdmPeli extends javax.swing.JFrame{
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"Registros"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
     
     
     File contenedor = new File(ubicacion);
@@ -247,7 +247,7 @@ public class AdmPeli extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+                .addGap(220, 220, 220))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
