@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaz.administracion;
+package interfaz.empleados;
 
+import interfaz.administracion.*;
 import java.io.*;
 import java.util.Formatter;
 import java.util.Properties;
@@ -15,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class AdmPeli extends javax.swing.JFrame{
+public class UsrPeli extends javax.swing.JFrame{
     
     String barra = File.separator;
     String ubicacion = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
@@ -230,7 +231,7 @@ public class AdmPeli extends javax.swing.JFrame{
         }
     }
     
-    public AdmPeli(){
+    public UsrPeli(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -438,8 +439,8 @@ public class AdmPeli extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Administrar administrar = new Administrar();
-        administrar.setVisible(true);
+        Usuario usuario = new Usuario();
+        usuario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -482,20 +483,21 @@ public class AdmPeli extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdmPeli().setVisible(true);
+                new UsrPeli().setVisible(true);
             }
         });
     }

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaz.administracion;
+package interfaz.empleados;
 
+import interfaz.administracion.*;
 import java.io.*;
 import java.util.Formatter;
 import java.util.Properties;
@@ -15,17 +16,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author PC
  */
-public class AdmPeli extends javax.swing.JFrame{
+public class UsrCli extends javax.swing.JFrame {
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
-    String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DBClientes"+barra;
     
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
     
-    String[] titulos = {"ID","Nombre","Formato","Precio","Stock"};
+    String[] titulos = {"ID","Nombre","Cedula","Direccion","Telefono","email"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
     private void RegTabla(){
@@ -38,8 +38,9 @@ public class AdmPeli extends javax.swing.JFrame{
                 mostrar.load(fis);
                 
                 String filas[] = {registros[i].getName().replace(".registros", ""),
-                mostrar.getProperty("Nombre"),mostrar.getProperty("Formato"),
-                mostrar.getProperty("Precio"),mostrar.getProperty("Stock")
+                mostrar.getProperty("Nombre"),mostrar.getProperty("Cedula"),
+                mostrar.getProperty("Direccion"),mostrar.getProperty("Telefono"),
+                mostrar.getProperty("email")
                 };
                 
                 dtm.addRow(filas);
@@ -70,14 +71,15 @@ public class AdmPeli extends javax.swing.JFrame{
             }else{
                 crear_ubicacion.mkdirs();
                 Formatter crea = new Formatter(ubicacion+archivo);
-                crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s", "ID="+jTextField4.getText(),
+                crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s", "ID="+jTextField4.getText(),
                 "Nombre="+jTextField2.getText(),
-                "Formato="+jTextField3.getText(),
-                "Precio="+jTextField5.getText(),
-                "Stock="+jTextField1.getText()
+                "Cedula="+jTextField6.getText(),
+                "Direccion="+jTextField5.getText(),
+                "Telefono="+jTextField1.getText(),
+                "email="+jTextField3.getText()
                 );
                 crea.close();
-                JOptionPane.showMessageDialog(rootPane,"Película ingresada con exito");
+                JOptionPane.showMessageDialog(rootPane,"Cliente ingresado con exito");
                 jComboBox1.removeAllItems();
                 registros = contenedor.listFiles();
                 MostrarCombo();
@@ -85,7 +87,7 @@ public class AdmPeli extends javax.swing.JFrame{
             }
             
             }catch(Exception e){
-                JOptionPane.showMessageDialog(rootPane,"La película no pudo ser ingresada");
+                JOptionPane.showMessageDialog(rootPane,"El cliente no pudo ser ingresado");
             }
          
         }
@@ -106,9 +108,10 @@ public class AdmPeli extends javax.swing.JFrame{
                      mostrar.load(fis);
                      
                      jTextField2.setText(mostrar.getProperty("Nombre"));
-                     jTextField3.setText(mostrar.getProperty("Formato"));
-                     jTextField5.setText(mostrar.getProperty("Precio"));
-                     jTextField1.setText(mostrar.getProperty("Stock"));
+                     jTextField3.setText(mostrar.getProperty("email"));
+                     jTextField6.setText(mostrar.getProperty("Cedula"));
+                     jTextField5.setText(mostrar.getProperty("Direccion"));
+                     jTextField1.setText(mostrar.getProperty("Telefono"));
                  }catch(Exception e){}
                  
              }else{JOptionPane.showMessageDialog(rootPane,"El registro no existe");}
@@ -130,18 +133,20 @@ public class AdmPeli extends javax.swing.JFrame{
 
                     String id = "ID=";
                     String nombre = "Nombre=";
-                    String formato ="Formato=";
-                    String precio ="Precio=";
-                    String stock ="Stock=";
+                    String ruc ="Cedula=";
+                    String direccion ="Direccion=";
+                    String telefono ="Telefono=";
+                    String email ="email=";
 
                     PrintWriter guardar = new PrintWriter(permite_escrito);
                     guardar.println(id+jTextField4.getText());
                     guardar.println(nombre+jTextField2.getText());
-                    guardar.println(formato+jTextField3.getText());
-                    guardar.println(precio+jTextField5.getText());
-                    guardar.println(stock+jTextField1.getText());
+                    guardar.println(ruc+jTextField6.getText());
+                    guardar.println(direccion+jTextField5.getText());
+                    guardar.println(telefono+jTextField1.getText());
+                    guardar.println(email+jTextField3.getText());
                     permite_escrito.close();
-                    JOptionPane.showMessageDialog(rootPane,"Película editada correctamente");
+                    JOptionPane.showMessageDialog(rootPane,"Cliente editado correctamente");
                     ActualizarTabla();
                 }
                 catch(Exception e){
@@ -171,12 +176,12 @@ public class AdmPeli extends javax.swing.JFrame{
                     System.gc();
                     
                     int seguro = JOptionPane.showOptionDialog(rootPane,
-                        "¿Está seguro de que quiere eliminar la película?"+jTextField4.getText(),
+                        "¿Está seguro de que quiere eliminar el cliente?"+jTextField4.getText(),
                         "Eliminar", 0, 0, null, botones, null);
                     
                     if(seguro == JOptionPane.YES_OPTION){
                         url.delete();
-                        JOptionPane.showMessageDialog(rootPane,"Película eliminada con éxito");
+                        JOptionPane.showMessageDialog(rootPane,"Cliente eliminado con éxito");
                         jComboBox1.removeItem(jTextField4.getText());
                         ActualizarTabla();
                     }
@@ -187,7 +192,7 @@ public class AdmPeli extends javax.swing.JFrame{
                 
             }
             else{
-                JOptionPane.showMessageDialog(rootPane,"Esa película no existe");
+                JOptionPane.showMessageDialog(rootPane,"Ese cliente no existe");
             }
             
         }
@@ -201,36 +206,7 @@ public class AdmPeli extends javax.swing.JFrame{
         
     }
     
-    private void Reporte(){
-        try {
-
-            String ruta = reportes+"ReportePelículas.report";
-            
-            BufferedWriter bfw = new BufferedWriter(new FileWriter(ruta));
-
-            bfw.write("ID | Nombre | Formato | Precio | Stock");
-            bfw.newLine();
-            
-                for (int i = 0 ; i < jTable2.getRowCount(); i++) //realiza un barrido por filas.
-                {
-                    for(int j = 0 ; j < jTable2.getColumnCount();j++) //realiza un barrido por columnas.
-                    {
-                        bfw.write((String)(jTable2.getValueAt(i,j)));
-                        if (j < jTable2.getColumnCount() -1) { //agrega separador "|" si no es el ultimo elemento de la fila.
-                            bfw.write(" | ");
-                        }
-                    }
-                    bfw.newLine(); //inserta nueva linea.
-                }
-
-            bfw.close(); //cierra archivo!
-            JOptionPane.showMessageDialog(rootPane,"El reporte fué generado con éxito");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(rootPane,"ERROR: Ocurrió un problema al generar el reporte");
-        }
-    }
-    
-    public AdmPeli(){
+    public UsrCli(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -261,14 +237,15 @@ public class AdmPeli extends javax.swing.JFrame{
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(30, 160, 250));
 
         jLabel1.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        jLabel1.setText("Películas");
+        jLabel1.setText("Clientes");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -294,15 +271,15 @@ public class AdmPeli extends javax.swing.JFrame{
             }
         });
 
-        jLabel2.setText("Stock:");
+        jLabel2.setText("Teléfono:");
 
         jLabel3.setText("Nombre:");
 
         jLabel4.setText("ID:");
 
-        jLabel5.setText("Precio:");
+        jLabel5.setText("Dirección");
 
-        jLabel6.setText("Formato:");
+        jLabel6.setText("E-Mail:");
 
         jButton2.setText("Crear");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -341,12 +318,7 @@ public class AdmPeli extends javax.swing.JFrame{
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jButton6.setText("Reporte");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
+        jLabel7.setText("Cedula:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -354,49 +326,46 @@ public class AdmPeli extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(206, 206, 206))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                            .addComponent(jTextField6)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,19 +385,26 @@ public class AdmPeli extends javax.swing.JFrame{
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))
+                            .addComponent(jButton3)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton5))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton5))
+                            .addComponent(jLabel5))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton6))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -438,8 +414,8 @@ public class AdmPeli extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Administrar administrar = new Administrar();
-        administrar.setVisible(true);
+        Usuario usuario = new Usuario();
+        usuario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -461,10 +437,6 @@ public class AdmPeli extends javax.swing.JFrame{
         Mostrar();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Reporte();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -482,20 +454,23 @@ public class AdmPeli extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdmPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdmPeli().setVisible(true);
+                new UsrCli().setVisible(true);
             }
         });
     }
@@ -505,7 +480,6 @@ public class AdmPeli extends javax.swing.JFrame{
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -513,6 +487,7 @@ public class AdmPeli extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
@@ -521,5 +496,6 @@ public class AdmPeli extends javax.swing.JFrame{
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }
