@@ -5,24 +5,165 @@
  */
 package interfaz.empleados;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Formatter;
+import java.util.Properties;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author PC
  */
 public class Ventas extends javax.swing.JFrame {
+    
+    String barra = File.separator;
+    String ubicacion = System.getProperty("user.dir")+barra+"DBVentas"+barra;
+    String clientes = System.getProperty("user.dir")+barra+"DBClientes"+barra;
+    
+    
+    File contenedor = new File(ubicacion);
+    File [] registros = contenedor.listFiles();
+    
+    File contenedor2 = new File(clientes);
+    File [] registros2 = contenedor2.listFiles();
+    
+    String[] titulos = {"Factura","Fecha","Cliente","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
+    DefaultTableModel dtm = new DefaultTableModel(null, titulos);
+    
+    private void RegTabla(){
+        for(int i=0; i<registros.length; i++){
+            
+            File url = new File(ubicacion+registros[i].getName());
+            try{
+                FileInputStream fis = new FileInputStream(url);
+                Properties mostrar = new Properties();
+                mostrar.load(fis);
+                
+                String filas[] = {registros[i].getName().replace(".registros", ""),
+                mostrar.getProperty("Fecha"),mostrar.getProperty("Cliente"),
+                mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
+                mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
+                mostrar.getProperty("TOTAL"),mostrar.getProperty("Tarjeta")
+                };
+                
+                dtm.addRow(filas);
+            }
+            catch(Exception e){System.out.print("");}
+        }
+        jTable1.setModel(dtm);
+    }
+    
+    private void ActualizarTabla(){
+        registros = contenedor.listFiles();
+        dtm.setRowCount(0);
+        RegTabla();
+    }
+    
+    private void Crear(){
+        String archivo = jTextField1.getText()+".registros";
+        File crear_ubicacion = new File(ubicacion);
+        File crear_archivo = new File(ubicacion+archivo);
+        if(jTextField1.getText()==""){
+            JOptionPane.showMessageDialog(rootPane,"No hay Factura");
+        }else{
+            
+            try{
+                
+            if(crear_archivo.exists()){
+                JOptionPane.showMessageDialog(rootPane,"El registro ya existe");
+            }else{
+                crear_ubicacion.mkdirs();
+                Formatter crea = new Formatter(ubicacion+archivo);
+                crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s", "Factura="+jTextField1.getText(),
+                "Fecha="+jTextField2.getText(),
+                "Cliente="+jTextField3.getText(),
+                "Películas="+jTextField4.getText(),
+                "Cantidad="+jTextField5.getText(),
+                "Precio="+jTextField6.getText(),
+                "Subtotal="+jTextField7.getText(),
+                "TOTAL="+jTextField8.getText(),
+                "Tarjeta="+jTextField9.getText()
+                );
+                crea.close();
+                JOptionPane.showMessageDialog(rootPane,"Venta ingresada con exito");
+                jComboBox1.removeAllItems();
+                registros = contenedor.listFiles();
+                MostrarCombo();
+                ActualizarTabla();
+            }
+            
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(rootPane,"La Venta no pudo ser ingresada");
+            }
+         
+        }
+    }
+    
+    private void MostrarCombo(){
+        
+        for(int i=0;i<registros2.length;i++){
+            jComboBox1.addItem(registros2[i].getName().replace(".registros",""));
+        }
+        
+    }
+    
+    private void Factura(){
+        String texto="";
+        
+        try {
+            FileReader entrada=new FileReader(ubicacion+"Facturas.txt");
 
-    /**
-     * Creates new form Ventas
-     */
+                int c=0;
+                while(c!=-1){
+                    c=entrada.read();
+                    char letra=(char)c;
+                    texto+=letra;
+                }
+                entrada.close();
+                
+                jTextField1.setText(texto);
+                int x = Integer.parseInt(texto);
+                x=x+1;
+                
+                PrintWriter pw = new PrintWriter(ubicacion+"Facturas.txt");
+                pw.write(x);
+                
+        } catch (IOException e) {
+        }
+    }
+    
+    private void MostrarFactura() throws FileNotFoundException{
+        String texto="";
+        
+        try {
+            FileReader entrada=new FileReader(ubicacion+"Facturas.txt");
+
+                int c=0;
+                while(c!=-1){
+                    c=entrada.read();
+                    char letra=(char)c;
+                    texto+=letra;
+                }
+                entrada.close();
+                
+                jTextField1.setText(texto);
+        }catch(IOException e){}
+    }
+    
     public Ventas() {
         initComponents();
+        setLocationRelativeTo(null);
+        MostrarCombo();
+        RegTabla();
+        /*MostrarFactura();*/
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,10 +205,10 @@ public class Ventas extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(385, 385, 385)
                 .addComponent(jLabel1)
-                .addGap(238, 238, 238))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,14 +235,37 @@ public class Ventas extends javax.swing.JFrame {
         jLabel9.setText("TOTAL:");
 
         jButton1.setText("Vender");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
+        jTextField1.setEditable(false);
+
+        jTextField3.setEditable(false);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
             }
         });
 
+        jTextField7.setEditable(false);
+
+        jTextField8.setEditable(false);
+
         jButton2.setText("Atras");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,7 +286,6 @@ public class Ventas extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +313,8 @@ public class Ventas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -211,6 +375,22 @@ public class Ventas extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Crear();
+        Factura();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+       String copiar = (String) jComboBox1.getSelectedItem();
+        jTextField3.setText(copiar);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Usuario init = new Usuario();
+        init.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

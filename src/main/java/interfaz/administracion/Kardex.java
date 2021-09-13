@@ -5,18 +5,56 @@
  */
 package interfaz.administracion;
 
-/**
- *
- * @author PC
- */
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+import javax.swing.table.DefaultTableModel;
+
 public class Kardex extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Kardex
-     */
+    String barra = File.separator;
+    String ubicacion = System.getProperty("user.dir")+barra+"DBVentas"+barra;
+    String clientes = System.getProperty("user.dir")+barra+"DBClientes"+barra;
+    
+    
+    File contenedor = new File(ubicacion);
+    File [] registros = contenedor.listFiles();
+    
+    File contenedor2 = new File(clientes);
+    File [] registros2 = contenedor2.listFiles();
+    
+    String[] titulos = {"Factura","Fecha","Cliente","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
+    DefaultTableModel dtm = new DefaultTableModel(null, titulos);
+    
+    private void RegTabla(){
+        for(int i=0; i<registros.length; i++){
+            
+            File url = new File(ubicacion+registros[i].getName());
+            try{
+                FileInputStream fis = new FileInputStream(url);
+                Properties mostrar = new Properties();
+                mostrar.load(fis);
+                
+                String filas[] = {registros[i].getName().replace(".registros", ""),
+                mostrar.getProperty("Fecha"),mostrar.getProperty("Cliente"),
+                mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
+                mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
+                mostrar.getProperty("TOTAL"),mostrar.getProperty("Tarjeta")
+                };
+                
+                dtm.addRow(filas);
+            }
+            catch(Exception e){System.out.print("");}
+        }
+        jTable1.setModel(dtm);
+    }
+    
+    
     public Kardex() {
         initComponents();
         setLocationRelativeTo(null);
+        RegTabla();
     }
 
     /**
@@ -71,13 +109,10 @@ public class Kardex extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(jTable1);
