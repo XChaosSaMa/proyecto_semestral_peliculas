@@ -57,7 +57,7 @@ public class AdmProv extends javax.swing.JFrame {
     }
     
     private void Crear(){
-        String archivo = jTextField4.getText()+".registros";
+        String archivo = jTextField2.getText()+".registros";
         File crear_ubicacion = new File(ubicacion);
         File crear_archivo = new File(ubicacion+archivo);
         if(jTextField4.getText()==""){
