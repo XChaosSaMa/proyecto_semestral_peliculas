@@ -83,7 +83,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\PC\\Documents\\NetBeansProjects\\Peliculas\\src\\main\\java\\imagenes\\Inicio.jpg")); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(800, 600));
         jLabel2.setMinimumSize(new java.awt.Dimension(800, 600));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
