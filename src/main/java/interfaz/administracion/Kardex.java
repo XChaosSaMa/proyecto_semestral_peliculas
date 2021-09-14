@@ -15,17 +15,21 @@ public class Kardex extends javax.swing.JFrame {
 
     String barra = File.separator;
     String ubicacion = System.getProperty("user.dir")+barra+"DBVentas"+barra;
+    String compras = System.getProperty("user.dir")+barra+"DBCompras"+barra;
     String clientes = System.getProperty("user.dir")+barra+"DBClientes"+barra;
-    
+    String proveedores = System.getProperty("user.dir")+barra+"DBProveedores"+barra;
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
     
-    File contenedor2 = new File(clientes);
+    File contenedor2 = new File(compras);
     File [] registros2 = contenedor2.listFiles();
     
     String[] titulos = {"Factura","Fecha","Cliente","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
+    
+    String[] titulos2 = {"Orden de Compra","Fecha","Proveedor","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
+    DefaultTableModel dtm2 = new DefaultTableModel(null, titulos2);
     
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
@@ -50,11 +54,35 @@ public class Kardex extends javax.swing.JFrame {
         jTable1.setModel(dtm);
     }
     
+    private void RegTabla2(){
+        for(int i=0; i<registros2.length; i++){
+            
+            File url = new File(compras+registros2[i].getName());
+            try{
+                FileInputStream fis = new FileInputStream(url);
+                Properties mostrar = new Properties();
+                mostrar.load(fis);
+                
+                String filas[] = {registros2[i].getName().replace(".registros", ""),
+                mostrar.getProperty("Fecha"),mostrar.getProperty("Proveedor"),
+                mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
+                mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
+                mostrar.getProperty("TOTAL")
+                };
+                
+                dtm2.addRow(filas);
+            }
+            catch(Exception e){System.out.print("");}
+        }
+        jTable2.setModel(dtm2);
+    }
+    
     
     public Kardex() {
         initComponents();
         setLocationRelativeTo(null);
         RegTabla();
+        RegTabla2();
     }
 
     /**
@@ -119,13 +147,10 @@ public class Kardex extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(jTable2);

@@ -133,8 +133,67 @@ public class Ventas extends javax.swing.JFrame {
         jTextField8.setText("$"+total);
     }
     
-    private void RestarPelicula(){
+    private void Editar(){
+        File url = new File(peliculas+jTextField4.getText()+".registros");
         
+        if(jTextField4.getText()==""){
+            JOptionPane.showMessageDialog(rootPane,"Indique el registro a editar");
+        }
+        else{
+            
+            if(url.exists()){
+                
+                    try{
+                        FileWriter permite_escrito = new FileWriter(peliculas+jTextField4.getText()+".registros");
+
+                        String id = "ID=";
+                        String nombre = "Nombre=";
+                        String formato ="Formato=";
+                        String precio ="Precio=";
+                        String stock ="Stock=";
+
+                        PrintWriter guardar = new PrintWriter(permite_escrito);
+                        guardar.println(id+jTextField4.getText());
+                        guardar.println(nombre+jTextField12.getText());
+                        guardar.println(formato+jTextField13.getText());
+                        guardar.println(precio+jTextField14.getText());
+                        guardar.println(stock+(Integer.valueOf(jTextField15.getText())-Integer.valueOf(jTextField5.getText())));
+                        permite_escrito.close();
+                    }
+                    catch(Exception e){
+                     JOptionPane.showMessageDialog(rootPane,"Error: "+e);
+                    }
+                
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"El registro no existe");
+            }
+
+        }
+    }
+    
+    public void Mostrar(){
+        File url = new File(peliculas+jTextField4.getText()+".registros");
+        
+         if(jTextField4.equals("")){
+                JOptionPane.showMessageDialog(rootPane,"Indique el ID para mostrar");
+            }else{
+             
+             if(url.exists()){
+                 
+                 try{
+                     FileInputStream fis = new FileInputStream(url);
+                     Properties mostrar = new Properties();
+                     mostrar.load(fis);
+                     
+                     jTextField12.setText(mostrar.getProperty("Nombre"));
+                     jTextField13.setText(mostrar.getProperty("Formato"));
+                     jTextField14.setText(mostrar.getProperty("Precio"));
+                     jTextField15.setText(mostrar.getProperty("Stock"));
+                 }catch(Exception e){}
+                 
+             }else{JOptionPane.showMessageDialog(rootPane,"El registro no existe");}
+             
+         }
     }
     
     public Ventas(){
@@ -143,12 +202,17 @@ public class Ventas extends javax.swing.JFrame {
         MostrarCombo();
         MostrarCombo2();
         RegTabla();
+        Mostrar();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField12 = new javax.swing.JTextField();
+        jTextField13 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -178,6 +242,28 @@ public class Ventas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+
+        jTextField12.setEditable(false);
+        jTextField12.setBorder(null);
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
+
+        jTextField13.setEditable(false);
+        jTextField13.setBorder(null);
+
+        jTextField14.setEditable(false);
+        jTextField14.setBorder(null);
+        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField14ActionPerformed(evt);
+            }
+        });
+
+        jTextField15.setEditable(false);
+        jTextField15.setBorder(null);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -303,7 +389,7 @@ public class Ventas extends javax.swing.JFrame {
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -334,7 +420,7 @@ public class Ventas extends javax.swing.JFrame {
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                        .addGap(12, 12, 12)
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -405,7 +491,15 @@ public class Ventas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Crear();
+        if(Integer.valueOf(jTextField15.getText())<Integer.valueOf(jTextField5.getText())){
+            
+            JOptionPane.showMessageDialog(rootPane,"No es posible vender esa cantidad");
+            
+        }else{
+            Crear();
+            Editar();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -423,6 +517,7 @@ public class Ventas extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         String copiar = (String) jComboBox2.getSelectedItem();
         jTextField4.setText(copiar);
+        Mostrar();
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jTextField6ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTextField6ComponentAdded
@@ -436,6 +531,14 @@ public class Ventas extends javax.swing.JFrame {
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         SubtotalTotal();
     }//GEN-LAST:event_jTextField5KeyReleased
+
+    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField14ActionPerformed
+
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,6 +597,10 @@ public class Ventas extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

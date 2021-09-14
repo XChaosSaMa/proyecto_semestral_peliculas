@@ -35,7 +35,7 @@ public class Compras extends javax.swing.JFrame {
     File contenedor3 = new File(peliculas);
     File [] registros3 = contenedor3.listFiles();
     
-    String[] titulos = {"Factura","Fecha","Cliente","Películas","Cantidad","Precio","Subtotal","TOTAL"};
+    String[] titulos = {"Factura","Fecha","Proveedor","Películas","Cantidad","Precio","Subtotal","TOTAL"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
     private void RegTabla(){
@@ -51,7 +51,8 @@ public class Compras extends javax.swing.JFrame {
                 mostrar.getProperty("Fecha"),mostrar.getProperty("Proveedor"),
                 mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
-                mostrar.getProperty("TOTAL"),};
+                mostrar.getProperty("TOTAL")
+                };
                 
                 dtm.addRow(filas);
             }
@@ -131,8 +132,67 @@ public class Compras extends javax.swing.JFrame {
         jTextField8.setText("$"+total);
     }
     
-    private void RestarPelicula(){
+    private void Editar(){
+        File url = new File(peliculas+jTextField4.getText()+".registros");
         
+        if(jTextField4.getText()==""){
+            JOptionPane.showMessageDialog(rootPane,"Indique el registro a editar");
+        }
+        else{
+            
+            if(url.exists()){
+                
+                    try{
+                        FileWriter permite_escrito = new FileWriter(peliculas+jTextField4.getText()+".registros");
+
+                        String id = "ID=";
+                        String nombre = "Nombre=";
+                        String formato ="Formato=";
+                        String precio ="Precio=";
+                        String stock ="Stock=";
+
+                        PrintWriter guardar = new PrintWriter(permite_escrito);
+                        guardar.println(id+jTextField4.getText());
+                        guardar.println(nombre+jTextField12.getText());
+                        guardar.println(formato+jTextField13.getText());
+                        guardar.println(precio+jTextField14.getText());
+                        guardar.println(stock+(Integer.valueOf(jTextField15.getText())+Integer.valueOf(jTextField5.getText())));
+                        permite_escrito.close();
+                    }
+                    catch(Exception e){
+                     JOptionPane.showMessageDialog(rootPane,"Error: "+e);
+                    }
+                
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"El registro no existe");
+            }
+
+        }
+    }
+    
+    public void Mostrar(){
+        File url = new File(peliculas+jTextField4.getText()+".registros");
+        
+         if(jTextField4.equals("")){
+                JOptionPane.showMessageDialog(rootPane,"Indique el ID para mostrar");
+            }else{
+             
+             if(url.exists()){
+                 
+                 try{
+                     FileInputStream fis = new FileInputStream(url);
+                     Properties mostrar = new Properties();
+                     mostrar.load(fis);
+                     
+                     jTextField12.setText(mostrar.getProperty("Nombre"));
+                     jTextField13.setText(mostrar.getProperty("Formato"));
+                     jTextField14.setText(mostrar.getProperty("Precio"));
+                     jTextField15.setText(mostrar.getProperty("Stock"));
+                 }catch(Exception e){}
+                 
+             }else{JOptionPane.showMessageDialog(rootPane,"El registro no existe");}
+             
+         }
     }
     
     public Compras(){
@@ -141,12 +201,17 @@ public class Compras extends javax.swing.JFrame {
         MostrarCombo();
         MostrarCombo2();
         RegTabla();
+        Mostrar();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField12 = new javax.swing.JTextField();
+        jTextField13 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -172,6 +237,28 @@ public class Compras extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
+
+        jTextField12.setEditable(false);
+        jTextField12.setBorder(null);
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
+
+        jTextField13.setEditable(false);
+        jTextField13.setBorder(null);
+
+        jTextField14.setEditable(false);
+        jTextField14.setBorder(null);
+        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField14ActionPerformed(evt);
+            }
+        });
+
+        jTextField15.setEditable(false);
+        jTextField15.setBorder(null);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -318,9 +405,9 @@ public class Compras extends javax.swing.JFrame {
                                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(10, 10, 10)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 7, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,7 +465,8 @@ public class Compras extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Crear();
+            Crear();
+            Editar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -396,6 +484,7 @@ public class Compras extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         String copiar = (String) jComboBox2.getSelectedItem();
         jTextField4.setText(copiar);
+        Mostrar();
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jTextField6ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTextField6ComponentAdded
@@ -409,6 +498,14 @@ public class Compras extends javax.swing.JFrame {
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         SubtotalTotal();
     }//GEN-LAST:event_jTextField5KeyReleased
+
+    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField14ActionPerformed
+
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -465,6 +562,10 @@ public class Compras extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
