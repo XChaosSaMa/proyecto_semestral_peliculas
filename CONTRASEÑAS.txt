@@ -1,0 +1,7 @@
+ADMIN:
+*admin
+*admin
+
+USUARIOS:
+*usuario
+*usuario
