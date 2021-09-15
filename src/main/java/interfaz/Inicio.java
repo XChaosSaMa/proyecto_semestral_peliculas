@@ -80,7 +80,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel3.setText("Ingrese su usuario y contraseña");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\PC\\Documents\\NetBeansProjects\\Peliculas\\src\\main\\java\\imagenes\\Inicio.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaz/Inicio.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(800, 600));
         jLabel2.setMinimumSize(new java.awt.Dimension(800, 600));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, -1));
