@@ -10,14 +10,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Kardex extends javax.swing.JFrame {
 
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DBVentas"+barra;
-    String compras = System.getProperty("user.dir")+barra+"DBCompras"+barra;
-    String clientes = System.getProperty("user.dir")+barra+"DBClientes"+barra;
-    String proveedores = System.getProperty("user.dir")+barra+"DBProveedores"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Ventas"+barra;
+    String compras = System.getProperty("user.dir")+barra+"DB"+barra+"Compras"+barra;
+    String clientes = System.getProperty("user.dir")+barra+"DB"+barra+"Clientes"+barra;
+    String proveedores = System.getProperty("user.dir")+barra+"DB"+barra+"Proveedores"+barra;
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
@@ -28,8 +29,11 @@ public class Kardex extends javax.swing.JFrame {
     String[] titulos = {"Factura","Fecha","Cliente","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
-    String[] titulos2 = {"Orden de Compra","Fecha","Proveedor","Películas","Cantidad","Precio","Subtotal","TOTAL","Tarjeta"};
+    String[] titulos2 = {"Orden de Compra","Fecha","Proveedor","Películas","Cantidad","Precio","Subtotal","TOTAL"};
     DefaultTableModel dtm2 = new DefaultTableModel(null, titulos2);
+    
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
+    TableRowSorter<DefaultTableModel> sorter2 = new TableRowSorter<>(dtm2);
     
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
@@ -52,6 +56,7 @@ public class Kardex extends javax.swing.JFrame {
             catch(Exception e){System.out.print("");}
         }
         jTable1.setModel(dtm);
+        jTable1.setRowSorter(sorter);
     }
     
     private void RegTabla2(){
@@ -75,6 +80,7 @@ public class Kardex extends javax.swing.JFrame {
             catch(Exception e){System.out.print("");}
         }
         jTable2.setModel(dtm2);
+        jTable2.setRowSorter(sorter2);
     }
     
     
@@ -189,7 +195,7 @@ public class Kardex extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

@@ -16,14 +16,15 @@ import java.util.Formatter;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 public class Compras extends javax.swing.JFrame {
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DBCompras"+barra;
-    String proveedores = System.getProperty("user.dir")+barra+"DBProveedores"+barra;
-    String peliculas = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Compras"+barra;
+    String proveedores = System.getProperty("user.dir")+barra+"DB"+barra+"Proveedores"+barra;
+    String peliculas = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     
     
     File contenedor = new File(ubicacion);
@@ -38,6 +39,8 @@ public class Compras extends javax.swing.JFrame {
     String[] titulos = {"Factura","Fecha","Proveedor","Películas","Cantidad","Precio","Subtotal","TOTAL"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
+    
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
             
@@ -47,7 +50,7 @@ public class Compras extends javax.swing.JFrame {
                 Properties mostrar = new Properties();
                 mostrar.load(fis);
                 
-                String filas[] = {registros[i].getName().replace(".registros", ""),
+                String filas[] = {registros[i].getName().replace(".dat", ""),
                 mostrar.getProperty("Fecha"),mostrar.getProperty("Proveedor"),
                 mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
@@ -59,6 +62,7 @@ public class Compras extends javax.swing.JFrame {
             catch(Exception e){System.out.print("");}
         }
         jTable1.setModel(dtm);
+        jTable1.setRowSorter(sorter);
     }
     
     private void ActualizarTabla(){
@@ -68,7 +72,7 @@ public class Compras extends javax.swing.JFrame {
     }
     
     private void Crear(){
-        String archivo = jTextField1.getText()+".registros";
+        String archivo = jTextField1.getText()+".dat";
         File crear_ubicacion = new File(ubicacion);
         File crear_archivo = new File(ubicacion+archivo);
         if(jTextField1.getText()==""){
@@ -109,14 +113,14 @@ public class Compras extends javax.swing.JFrame {
     private void MostrarCombo(){
         
         for(int i=0;i<registros2.length;i++){
-            jComboBox1.addItem(registros2[i].getName().replace(".registros",""));
+            jComboBox1.addItem(registros2[i].getName().replace(".dat",""));
         }
         
     }
     
     private void MostrarCombo2(){
         for(int i=0;i<registros3.length;i++){
-            jComboBox2.addItem(registros3[i].getName().replace(".registros",""));
+            jComboBox2.addItem(registros3[i].getName().replace(".dat",""));
         }
     }
     
@@ -133,7 +137,7 @@ public class Compras extends javax.swing.JFrame {
     }
     
     private void Editar(){
-        File url = new File(peliculas+jTextField4.getText()+".registros");
+        File url = new File(peliculas+jTextField4.getText()+".dat");
         
         if(jTextField4.getText()==""){
             JOptionPane.showMessageDialog(rootPane,"Indique el registro a editar");
@@ -143,7 +147,7 @@ public class Compras extends javax.swing.JFrame {
             if(url.exists()){
                 
                     try{
-                        FileWriter permite_escrito = new FileWriter(peliculas+jTextField4.getText()+".registros");
+                        FileWriter permite_escrito = new FileWriter(peliculas+jTextField4.getText()+".dat");
 
                         String id = "ID=";
                         String nombre = "Nombre=";
@@ -171,7 +175,7 @@ public class Compras extends javax.swing.JFrame {
     }
     
     public void Mostrar(){
-        File url = new File(peliculas+jTextField4.getText()+".registros");
+        File url = new File(peliculas+jTextField4.getText()+".dat");
         
          if(jTextField4.equals("")){
                 JOptionPane.showMessageDialog(rootPane,"Indique el ID para mostrar");
@@ -190,7 +194,7 @@ public class Compras extends javax.swing.JFrame {
                      jTextField15.setText(mostrar.getProperty("Stock"));
                  }catch(Exception e){}
                  
-             }else{JOptionPane.showMessageDialog(rootPane,"El registro no existe");}
+             }else{}
              
          }
     }

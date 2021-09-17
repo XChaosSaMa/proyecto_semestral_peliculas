@@ -10,6 +10,7 @@ import java.util.Formatter;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -18,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class AdmPeli extends javax.swing.JFrame{
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
     
     
@@ -27,6 +28,8 @@ public class AdmPeli extends javax.swing.JFrame{
     
     String[] titulos = {"ID","Nombre","Formato","Precio","Stock"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
+    
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
     
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
@@ -37,7 +40,7 @@ public class AdmPeli extends javax.swing.JFrame{
                 Properties mostrar = new Properties();
                 mostrar.load(fis);
                 
-                String filas[] = {registros[i].getName().replace(".registros", ""),
+                String filas[] = {registros[i].getName().replace(".dat", ""),
                 mostrar.getProperty("Nombre"),mostrar.getProperty("Formato"),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Stock")
                 };
@@ -47,6 +50,7 @@ public class AdmPeli extends javax.swing.JFrame{
             catch(Exception e){System.out.print("");}
         }
         jTable2.setModel(dtm);
+        jTable2.setRowSorter(sorter);
     }
     
     private void ActualizarTabla(){
@@ -56,7 +60,7 @@ public class AdmPeli extends javax.swing.JFrame{
     }
     
     private void Crear(){
-        String archivo = jTextField4.getText()+".registros";
+        String archivo = jTextField4.getText()+".dat";
         File crear_ubicacion = new File(ubicacion);
         File crear_archivo = new File(ubicacion+archivo);
         if(jTextField4.getText()==""){
@@ -92,7 +96,7 @@ public class AdmPeli extends javax.swing.JFrame{
     }
     
     public void Mostrar(){
-        File url = new File(ubicacion+jTextField4.getText()+".registros");
+        File url = new File(ubicacion+jTextField4.getText()+".dat");
         
          if(jTextField4.equals("")){
                 JOptionPane.showMessageDialog(rootPane,"Indique el ID para mostrar");
@@ -111,13 +115,13 @@ public class AdmPeli extends javax.swing.JFrame{
                      jTextField1.setText(mostrar.getProperty("Stock"));
                  }catch(Exception e){}
                  
-             }else{JOptionPane.showMessageDialog(rootPane,"El registro no existe");}
+             }else{}
              
          }
     }
     
     private void Editar(){
-        File url = new File(ubicacion+jTextField4.getText()+".registros");
+        File url = new File(ubicacion+jTextField4.getText()+".dat");
         
         if(jTextField4.getText()==""){
             JOptionPane.showMessageDialog(rootPane,"Indique el registro a editar");
@@ -126,7 +130,7 @@ public class AdmPeli extends javax.swing.JFrame{
             
             if(url.exists()){
                 try{
-                    FileWriter permite_escrito = new FileWriter(ubicacion+jTextField4.getText()+".registros");
+                    FileWriter permite_escrito = new FileWriter(ubicacion+jTextField4.getText()+".dat");
 
                     String id = "ID=";
                     String nombre = "Nombre=";
@@ -155,7 +159,7 @@ public class AdmPeli extends javax.swing.JFrame{
     }
     
     private void Borrar(){
-        File url = new File(ubicacion+jTextField4.getText()+".registros");
+        File url = new File(ubicacion+jTextField4.getText()+".dat");
         String botones[] = {"Eliminar","Cancelar"}; 
         
         if(jTextField4.equals("")){
@@ -196,7 +200,7 @@ public class AdmPeli extends javax.swing.JFrame{
     private void MostrarCombo(){
         
         for(int i=0;i<registros.length;i++){
-            jComboBox1.addItem(registros[i].getName().replace(".registros",""));
+            jComboBox1.addItem(registros[i].getName().replace(".dat",""));
         }
         
     }
@@ -339,6 +343,11 @@ public class AdmPeli extends javax.swing.JFrame{
 
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton6.setText("Reporte");
@@ -463,6 +472,15 @@ public class AdmPeli extends javax.swing.JFrame{
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         Reporte();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        int selection = jTable2.rowAtPoint(evt.getPoint());
+        jTextField4.setText(String.valueOf(jTable2.getValueAt(selection, 0)));
+        jTextField2.setText(String.valueOf(jTable2.getValueAt(selection, 1)));
+        jTextField3.setText(String.valueOf(jTable2.getValueAt(selection, 2)));
+        jTextField1.setText(String.valueOf(jTable2.getValueAt(selection, 3)));
+        jTextField5.setText(String.valueOf(jTable2.getValueAt(selection, 4)));
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments

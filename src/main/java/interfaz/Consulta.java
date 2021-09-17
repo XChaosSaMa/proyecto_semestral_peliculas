@@ -6,10 +6,9 @@
 package interfaz;
 
 import java.io.*;
-import java.util.Formatter;
 import java.util.Properties;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -18,15 +17,17 @@ import javax.swing.table.DefaultTableModel;
 public class Consulta extends javax.swing.JFrame {
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DBPeliculas"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
     
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
     
-    String[] titulos = {"ID","Nombre","Formato","Precio","Stock"};
+    String[] titulos = {"Nombre","Precio","Formato"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
+    
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
 
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
@@ -38,8 +39,7 @@ public class Consulta extends javax.swing.JFrame {
                 mostrar.load(fis);
                 
                 String filas[] = {registros[i].getName().replace(".registros", ""),
-                mostrar.getProperty("Nombre"),mostrar.getProperty("Formato"),
-                mostrar.getProperty("Precio"),mostrar.getProperty("Stock")
+                mostrar.getProperty("Precio"),mostrar.getProperty("Formato"),
                 };
                 
                 dtm.addRow(filas);
@@ -47,6 +47,7 @@ public class Consulta extends javax.swing.JFrame {
             catch(Exception e){System.out.print("");}
         }
         jTable1.setModel(dtm);
+        jTable1.setRowSorter(sorter);
     }
     
     public Consulta() {
