@@ -18,7 +18,6 @@ public class Consulta extends javax.swing.JFrame {
     
     String barra = File.separator;
     String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
-    String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
     
     
     File contenedor = new File(ubicacion);
@@ -38,7 +37,7 @@ public class Consulta extends javax.swing.JFrame {
                 Properties mostrar = new Properties();
                 mostrar.load(fis);
                 
-                String filas[] = {registros[i].getName().replace(".registros", ""),
+                String filas[] = {registros[i].getName().replace(".dat", ""),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Formato"),
                 };
                 

@@ -44,7 +44,7 @@ public class Kardex extends javax.swing.JFrame {
                 Properties mostrar = new Properties();
                 mostrar.load(fis);
                 
-                String filas[] = {registros[i].getName().replace(".registros", ""),
+                String filas[] = {registros[i].getName().replace(".dat", ""),
                 mostrar.getProperty("Fecha"),mostrar.getProperty("Cliente"),
                 mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),
@@ -68,7 +68,7 @@ public class Kardex extends javax.swing.JFrame {
                 Properties mostrar = new Properties();
                 mostrar.load(fis);
                 
-                String filas[] = {registros2[i].getName().replace(".registros", ""),
+                String filas[] = {registros2[i].getName().replace(".dat", ""),
                 mostrar.getProperty("Fecha"),mostrar.getProperty("Proveedor"),
                 mostrar.getProperty("Películas"),mostrar.getProperty("Cantidad"),
                 mostrar.getProperty("Precio"),mostrar.getProperty("Subtotal"),

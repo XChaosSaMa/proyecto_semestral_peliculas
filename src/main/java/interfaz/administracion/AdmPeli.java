@@ -89,7 +89,7 @@ public class AdmPeli extends javax.swing.JFrame{
             }
             
             }catch(Exception e){
-                JOptionPane.showMessageDialog(rootPane,"La película no pudo ser ingresada");
+                ActualizarTabla();
             }
          
         }

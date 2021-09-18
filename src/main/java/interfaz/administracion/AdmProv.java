@@ -91,7 +91,7 @@ public class AdmProv extends javax.swing.JFrame {
             }
             
             }catch(Exception e){
-                JOptionPane.showMessageDialog(rootPane,"El proveedor no pudo ser ingresado");
+                ActualizarTabla();
             }
          
         }

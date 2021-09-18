@@ -90,7 +90,7 @@ public class AdmUsr extends javax.swing.JFrame {
             }
             
             }catch(Exception e){
-                JOptionPane.showMessageDialog(rootPane,"El empleado no pudo ser ingresado");
+                ActualizarTabla();
             }
          
         }
