@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -23,6 +25,7 @@ public class Ventas extends javax.swing.JFrame {
     String clientes = System.getProperty("user.dir")+barra+"DB"+barra+"Clientes"+barra;
     String peliculas = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
@@ -186,11 +189,13 @@ public class Ventas extends javax.swing.JFrame {
                      Properties mostrar = new Properties();
                      mostrar.load(fis);
                      
+                     jTextField6.setText(mostrar.getProperty("Precio"));
                      jTextField12.setText(mostrar.getProperty("Nombre"));
                      jTextField13.setText(mostrar.getProperty("Formato"));
                      jTextField14.setText(mostrar.getProperty("Precio"));
                      jTextField15.setText(mostrar.getProperty("Stock"));
-                 }catch(Exception e){}
+                 }catch(Exception e){
+                 }
                  
              }else{}
              
@@ -204,6 +209,7 @@ public class Ventas extends javax.swing.JFrame {
         MostrarCombo2();
         RegTabla();
         Mostrar();
+        jTextField2.setText(dtf.format(LocalDateTime.now()));
     }
 
     @SuppressWarnings("unchecked")
@@ -313,6 +319,8 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
 
+        jTextField2.setEditable(false);
+
         jTextField3.setEditable(false);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,6 +336,7 @@ public class Ventas extends javax.swing.JFrame {
             }
         });
 
+        jTextField6.setEditable(false);
         jTextField6.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
                 jTextField6ComponentAdded(evt);

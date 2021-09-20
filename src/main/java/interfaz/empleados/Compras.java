@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -23,6 +25,7 @@ public class Compras extends javax.swing.JFrame {
     String proveedores = System.getProperty("user.dir")+barra+"DB"+barra+"Proveedores"+barra;
     String peliculas = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
@@ -203,6 +206,7 @@ public class Compras extends javax.swing.JFrame {
         MostrarCombo2();
         RegTabla();
         Mostrar();
+        jTextField2.setText(dtf.format(LocalDateTime.now()));
     }
 
     @SuppressWarnings("unchecked")
@@ -307,6 +311,8 @@ public class Compras extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jTextField2.setEditable(false);
 
         jTextField3.setEditable(false);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
