@@ -115,19 +115,19 @@ public class Administrar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        AdmUsr administrarusr = new AdmUsr();
+        AdminEmpleados administrarusr = new AdminEmpleados();
         administrarusr.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        AdmProv administrarprov = new AdmProv();
+        AdminProveedores administrarprov = new AdminProveedores();
         administrarprov.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AdmPeli adpeli = new AdmPeli();
+        AdminPeliculas adpeli = new AdminPeliculas();
         adpeli.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed

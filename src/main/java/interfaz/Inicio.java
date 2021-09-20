@@ -145,7 +145,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JOptionPane.showMessageDialog(rootPane,"Para ingresar al sistema como administrador utilice:\nUsuario: admin Contraseña: admin\nPara ingresar al sistema como empleado utilice:\nUsuario: user Contraseña: user");
+        JOptionPane.showMessageDialog(rootPane,"Para ingresar al sistema como administrador utilice:\nUsuario: admin Contraseña: admin\nPara ingresar al sistema como empleado utilice:\nUsuario: usuario Contraseña: usuario");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {

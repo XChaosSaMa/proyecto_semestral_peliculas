@@ -16,20 +16,21 @@ import javax.swing.table.TableRowSorter;
  *
  * @author PC
  */
-public class AdmUsr extends javax.swing.JFrame {
+public class AdminProveedores extends javax.swing.JFrame {
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Empleados"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Proveedores"+barra;
     String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
     
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
     
-    String[] titulos = {"ID","Nombre","Cedula","Direccion","Telefono","Sueldo"};
+    String[] titulos = {"ID","Nombre","RUC","Direccion","Telefono","email"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
     TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
+    
     private void RegTabla(){
         for(int i=0; i<registros.length; i++){
             
@@ -40,9 +41,9 @@ public class AdmUsr extends javax.swing.JFrame {
                 mostrar.load(fis);
                 
                 String filas[] = {registros[i].getName().replace(".dat", ""),
-                mostrar.getProperty("Nombre"),mostrar.getProperty("Cedula"),
+                mostrar.getProperty("Nombre"),mostrar.getProperty("RUC"),
                 mostrar.getProperty("Direccion"),mostrar.getProperty("Telefono"),
-                mostrar.getProperty("Sueldo")
+                mostrar.getProperty("email")
                 };
                 
                 dtm.addRow(filas);
@@ -60,7 +61,7 @@ public class AdmUsr extends javax.swing.JFrame {
     }
     
     private void Crear(){
-        String archivo = jTextField4.getText()+".dat";
+        String archivo = jTextField2.getText()+".dat";
         File crear_ubicacion = new File(ubicacion);
         File crear_archivo = new File(ubicacion+archivo);
         if(jTextField4.getText()==""){
@@ -76,13 +77,13 @@ public class AdmUsr extends javax.swing.JFrame {
                 Formatter crea = new Formatter(ubicacion+archivo);
                 crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s", "ID="+jTextField4.getText(),
                 "Nombre="+jTextField2.getText(),
-                "Cedula="+jTextField6.getText(),
+                "RUC="+jTextField6.getText(),
                 "Direccion="+jTextField5.getText(),
                 "Telefono="+jTextField1.getText(),
-                "Sueldo="+jTextField3.getText()
+                "email="+jTextField3.getText()
                 );
                 crea.close();
-                JOptionPane.showMessageDialog(rootPane,"Empleado ingresado con exito");
+                JOptionPane.showMessageDialog(rootPane,"Proveedor ingresado con exito");
                 jComboBox1.removeAllItems();
                 registros = contenedor.listFiles();
                 MostrarCombo();
@@ -111,8 +112,8 @@ public class AdmUsr extends javax.swing.JFrame {
                      mostrar.load(fis);
                      
                      jTextField2.setText(mostrar.getProperty("Nombre"));
-                     jTextField3.setText(mostrar.getProperty("Sueldo"));
-                     jTextField6.setText(mostrar.getProperty("Cedula"));
+                     jTextField3.setText(mostrar.getProperty("email"));
+                     jTextField6.setText(mostrar.getProperty("RUC"));
                      jTextField5.setText(mostrar.getProperty("Direccion"));
                      jTextField1.setText(mostrar.getProperty("Telefono"));
                  }catch(Exception e){}
@@ -136,20 +137,20 @@ public class AdmUsr extends javax.swing.JFrame {
 
                     String id = "ID=";
                     String nombre = "Nombre=";
-                    String cedula ="Cedula=";
+                    String ruc ="RUC=";
                     String direccion ="Direccion=";
                     String telefono ="Telefono=";
-                    String sueldo ="Sueldo=";
+                    String email ="email=";
 
                     PrintWriter guardar = new PrintWriter(permite_escrito);
                     guardar.println(id+jTextField4.getText());
                     guardar.println(nombre+jTextField2.getText());
-                    guardar.println(cedula+jTextField6.getText());
+                    guardar.println(ruc+jTextField6.getText());
                     guardar.println(direccion+jTextField5.getText());
                     guardar.println(telefono+jTextField1.getText());
-                    guardar.println(sueldo+jTextField3.getText());
+                    guardar.println(email+jTextField3.getText());
                     permite_escrito.close();
-                    JOptionPane.showMessageDialog(rootPane,"Empleado editado correctamente");
+                    JOptionPane.showMessageDialog(rootPane,"Proveedor editado correctamente");
                     ActualizarTabla();
                 }
                 catch(Exception e){
@@ -179,12 +180,12 @@ public class AdmUsr extends javax.swing.JFrame {
                     System.gc();
                     
                     int seguro = JOptionPane.showOptionDialog(rootPane,
-                        "¿Está seguro de que quiere eliminar el empleado?"+jTextField4.getText(),
+                        "¿Está seguro de que quiere eliminar el proveedor?"+jTextField4.getText(),
                         "Eliminar", 0, 0, null, botones, null);
                     
                     if(seguro == JOptionPane.YES_OPTION){
                         url.delete();
-                        JOptionPane.showMessageDialog(rootPane,"Empleado eliminado con éxito");
+                        JOptionPane.showMessageDialog(rootPane,"Proveedor eliminado con éxito");
                         jComboBox1.removeItem(jTextField4.getText());
                         ActualizarTabla();
                     }
@@ -195,7 +196,7 @@ public class AdmUsr extends javax.swing.JFrame {
                 
             }
             else{
-                JOptionPane.showMessageDialog(rootPane,"Ese empleado no existe");
+                JOptionPane.showMessageDialog(rootPane,"Ese proveedor no existe");
             }
             
         }
@@ -212,11 +213,11 @@ public class AdmUsr extends javax.swing.JFrame {
     private void Reporte(){
         try {
 
-            String ruta = reportes+"ReporteEmpleados.report";
+            String ruta = reportes+"ReporteProveedores.report";
             
             BufferedWriter bfw = new BufferedWriter(new FileWriter(ruta));
 
-            bfw.write("ID | Nombre | Cedula | Dirección | Teléfono | Sueldo");
+            bfw.write("ID | Nombre | RUC | Dirección | Teléfono | E-mail");
             bfw.newLine();
             
                 for (int i = 0 ; i < jTable2.getRowCount(); i++) //realiza un barrido por filas.
@@ -238,7 +239,7 @@ public class AdmUsr extends javax.swing.JFrame {
         }
     }
     
-    public AdmUsr(){
+    public AdminProveedores(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -278,7 +279,7 @@ public class AdmUsr extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(30, 160, 250));
 
         jLabel1.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        jLabel1.setText("Empleados");
+        jLabel1.setText("Proveedores");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -312,7 +313,7 @@ public class AdmUsr extends javax.swing.JFrame {
 
         jLabel5.setText("Dirección");
 
-        jLabel6.setText("Sueldo:");
+        jLabel6.setText("E-Mail:");
 
         jButton2.setText("Crear");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -356,7 +357,7 @@ public class AdmUsr extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
-        jLabel7.setText("Cédula:");
+        jLabel7.setText("RUC:");
 
         jButton6.setText("Reporte");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -388,15 +389,11 @@ public class AdmUsr extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGap(6, 6, 6)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                                             .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
@@ -422,7 +419,7 @@ public class AdmUsr extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -457,9 +454,9 @@ public class AdmUsr extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -520,13 +517,13 @@ public class AdmUsr extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdmUsr.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdmUsr.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdmUsr.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdmUsr.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminProveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -536,7 +533,7 @@ public class AdmUsr extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdmUsr().setVisible(true);
+                new AdminProveedores().setVisible(true);
             }
         });
     }

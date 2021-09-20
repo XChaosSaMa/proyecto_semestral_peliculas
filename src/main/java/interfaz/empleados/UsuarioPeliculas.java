@@ -17,7 +17,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author PC
  */
-public class UsrPeli extends javax.swing.JFrame{
+public class UsuarioPeliculas extends javax.swing.JFrame{
     
     String barra = File.separator;
     String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
@@ -235,7 +235,7 @@ public class UsrPeli extends javax.swing.JFrame{
         }
     }
     
-    public UsrPeli(){
+    public UsuarioPeliculas(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -501,21 +501,23 @@ public class UsrPeli extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UsrPeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UsrPeli().setVisible(true);
+                new UsuarioPeliculas().setVisible(true);
             }
         });
     }

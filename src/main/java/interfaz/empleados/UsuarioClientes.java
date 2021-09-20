@@ -17,7 +17,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author PC
  */
-public class UsrCli extends javax.swing.JFrame {
+public class UsuarioClientes extends javax.swing.JFrame {
     
     String barra = File.separator;
     String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Clientes"+barra;
@@ -210,7 +210,7 @@ public class UsrCli extends javax.swing.JFrame {
         
     }
     
-    public UsrCli(){
+    public UsuarioClientes(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -473,14 +473,18 @@ public class UsrCli extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UsrCli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UsuarioClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -489,7 +493,7 @@ public class UsrCli extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UsrCli().setVisible(true);
+                new UsuarioClientes().setVisible(true);
             }
         });
     }

@@ -16,17 +16,17 @@ import javax.swing.table.TableRowSorter;
  *
  * @author PC
  */
-public class AdmProv extends javax.swing.JFrame {
+public class AdminPeliculas extends javax.swing.JFrame{
     
     String barra = File.separator;
-    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Proveedores"+barra;
+    String ubicacion = System.getProperty("user.dir")+barra+"DB"+barra+"Peliculas"+barra;
     String reportes = System.getProperty("user.dir")+barra+"Reportes"+barra;
     
     
     File contenedor = new File(ubicacion);
     File [] registros = contenedor.listFiles();
     
-    String[] titulos = {"ID","Nombre","RUC","Direccion","Telefono","email"};
+    String[] titulos = {"ID","Nombre","Formato","Precio","Stock"};
     DefaultTableModel dtm = new DefaultTableModel(null, titulos);
     
     TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
@@ -41,9 +41,8 @@ public class AdmProv extends javax.swing.JFrame {
                 mostrar.load(fis);
                 
                 String filas[] = {registros[i].getName().replace(".dat", ""),
-                mostrar.getProperty("Nombre"),mostrar.getProperty("RUC"),
-                mostrar.getProperty("Direccion"),mostrar.getProperty("Telefono"),
-                mostrar.getProperty("email")
+                mostrar.getProperty("Nombre"),mostrar.getProperty("Formato"),
+                mostrar.getProperty("Precio"),mostrar.getProperty("Stock")
                 };
                 
                 dtm.addRow(filas);
@@ -61,7 +60,7 @@ public class AdmProv extends javax.swing.JFrame {
     }
     
     private void Crear(){
-        String archivo = jTextField2.getText()+".dat";
+        String archivo = jTextField4.getText()+".dat";
         File crear_ubicacion = new File(ubicacion);
         File crear_archivo = new File(ubicacion+archivo);
         if(jTextField4.getText()==""){
@@ -75,15 +74,14 @@ public class AdmProv extends javax.swing.JFrame {
             }else{
                 crear_ubicacion.mkdirs();
                 Formatter crea = new Formatter(ubicacion+archivo);
-                crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s", "ID="+jTextField4.getText(),
+                crea.format("%s\r\n%s\r\n%s\r\n%s\r\n%s", "ID="+jTextField4.getText(),
                 "Nombre="+jTextField2.getText(),
-                "RUC="+jTextField6.getText(),
-                "Direccion="+jTextField5.getText(),
-                "Telefono="+jTextField1.getText(),
-                "email="+jTextField3.getText()
+                "Formato="+jTextField3.getText(),
+                "Precio="+jTextField5.getText(),
+                "Stock="+jTextField1.getText()
                 );
                 crea.close();
-                JOptionPane.showMessageDialog(rootPane,"Proveedor ingresado con exito");
+                JOptionPane.showMessageDialog(rootPane,"Película ingresada con exito");
                 jComboBox1.removeAllItems();
                 registros = contenedor.listFiles();
                 MostrarCombo();
@@ -112,10 +110,9 @@ public class AdmProv extends javax.swing.JFrame {
                      mostrar.load(fis);
                      
                      jTextField2.setText(mostrar.getProperty("Nombre"));
-                     jTextField3.setText(mostrar.getProperty("email"));
-                     jTextField6.setText(mostrar.getProperty("RUC"));
-                     jTextField5.setText(mostrar.getProperty("Direccion"));
-                     jTextField1.setText(mostrar.getProperty("Telefono"));
+                     jTextField3.setText(mostrar.getProperty("Formato"));
+                     jTextField5.setText(mostrar.getProperty("Precio"));
+                     jTextField1.setText(mostrar.getProperty("Stock"));
                  }catch(Exception e){}
                  
              }else{}
@@ -137,20 +134,18 @@ public class AdmProv extends javax.swing.JFrame {
 
                     String id = "ID=";
                     String nombre = "Nombre=";
-                    String ruc ="RUC=";
-                    String direccion ="Direccion=";
-                    String telefono ="Telefono=";
-                    String email ="email=";
+                    String formato ="Formato=";
+                    String precio ="Precio=";
+                    String stock ="Stock=";
 
                     PrintWriter guardar = new PrintWriter(permite_escrito);
                     guardar.println(id+jTextField4.getText());
                     guardar.println(nombre+jTextField2.getText());
-                    guardar.println(ruc+jTextField6.getText());
-                    guardar.println(direccion+jTextField5.getText());
-                    guardar.println(telefono+jTextField1.getText());
-                    guardar.println(email+jTextField3.getText());
+                    guardar.println(formato+jTextField3.getText());
+                    guardar.println(precio+jTextField5.getText());
+                    guardar.println(stock+jTextField1.getText());
                     permite_escrito.close();
-                    JOptionPane.showMessageDialog(rootPane,"Proveedor editado correctamente");
+                    JOptionPane.showMessageDialog(rootPane,"Película editada correctamente");
                     ActualizarTabla();
                 }
                 catch(Exception e){
@@ -180,12 +175,12 @@ public class AdmProv extends javax.swing.JFrame {
                     System.gc();
                     
                     int seguro = JOptionPane.showOptionDialog(rootPane,
-                        "¿Está seguro de que quiere eliminar el proveedor?"+jTextField4.getText(),
+                        "¿Está seguro de que quiere eliminar la película?"+jTextField4.getText(),
                         "Eliminar", 0, 0, null, botones, null);
                     
                     if(seguro == JOptionPane.YES_OPTION){
                         url.delete();
-                        JOptionPane.showMessageDialog(rootPane,"Proveedor eliminado con éxito");
+                        JOptionPane.showMessageDialog(rootPane,"Película eliminada con éxito");
                         jComboBox1.removeItem(jTextField4.getText());
                         ActualizarTabla();
                     }
@@ -196,7 +191,7 @@ public class AdmProv extends javax.swing.JFrame {
                 
             }
             else{
-                JOptionPane.showMessageDialog(rootPane,"Ese proveedor no existe");
+                JOptionPane.showMessageDialog(rootPane,"Esa película no existe");
             }
             
         }
@@ -213,11 +208,11 @@ public class AdmProv extends javax.swing.JFrame {
     private void Reporte(){
         try {
 
-            String ruta = reportes+"ReporteProveedores.report";
+            String ruta = reportes+"ReportePelículas.report";
             
             BufferedWriter bfw = new BufferedWriter(new FileWriter(ruta));
 
-            bfw.write("ID | Nombre | RUC | Dirección | Teléfono | E-mail");
+            bfw.write("ID | Nombre | Formato | Precio | Stock");
             bfw.newLine();
             
                 for (int i = 0 ; i < jTable2.getRowCount(); i++) //realiza un barrido por filas.
@@ -239,7 +234,7 @@ public class AdmProv extends javax.swing.JFrame {
         }
     }
     
-    public AdmProv(){
+    public AdminPeliculas(){
         initComponents();
         setLocationRelativeTo(null);
         MostrarCombo();
@@ -270,8 +265,6 @@ public class AdmProv extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jTextField6 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -279,7 +272,7 @@ public class AdmProv extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(30, 160, 250));
 
         jLabel1.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
-        jLabel1.setText("Proveedores");
+        jLabel1.setText("Películas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -305,15 +298,15 @@ public class AdmProv extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Teléfono:");
+        jLabel2.setText("Stock:");
 
         jLabel3.setText("Nombre:");
 
         jLabel4.setText("ID:");
 
-        jLabel5.setText("Dirección");
+        jLabel5.setText("Precio:");
 
-        jLabel6.setText("E-Mail:");
+        jLabel6.setText("Formato:");
 
         jButton2.setText("Crear");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -357,8 +350,6 @@ public class AdmProv extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
-        jLabel7.setText("RUC:");
-
         jButton6.setText("Reporte");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,49 +361,50 @@ public class AdmProv extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(206, 206, 206))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                                            .addComponent(jTextField6)))
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,28 +424,19 @@ public class AdmProv extends javax.swing.JFrame {
                             .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton5))
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton6))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jButton5))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -494,10 +477,9 @@ public class AdmProv extends javax.swing.JFrame {
         int selection = jTable2.rowAtPoint(evt.getPoint());
         jTextField4.setText(String.valueOf(jTable2.getValueAt(selection, 0)));
         jTextField2.setText(String.valueOf(jTable2.getValueAt(selection, 1)));
-        jTextField6.setText(String.valueOf(jTable2.getValueAt(selection, 2)));
-        jTextField5.setText(String.valueOf(jTable2.getValueAt(selection, 3)));
-        jTextField1.setText(String.valueOf(jTable2.getValueAt(selection, 4)));
-        jTextField3.setText(String.valueOf(jTable2.getValueAt(selection, 5)));
+        jTextField3.setText(String.valueOf(jTable2.getValueAt(selection, 2)));
+        jTextField1.setText(String.valueOf(jTable2.getValueAt(selection, 3)));
+        jTextField5.setText(String.valueOf(jTable2.getValueAt(selection, 4)));
     }//GEN-LAST:event_jTable2MouseClicked
 
     /**
@@ -517,13 +499,13 @@ public class AdmProv extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdmProv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdmProv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdmProv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdmProv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminPeliculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -531,7 +513,7 @@ public class AdmProv extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdmProv().setVisible(true);
+                new AdminPeliculas().setVisible(true);
             }
         });
     }
@@ -549,7 +531,6 @@ public class AdmProv extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
@@ -558,6 +539,5 @@ public class AdmProv extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }
