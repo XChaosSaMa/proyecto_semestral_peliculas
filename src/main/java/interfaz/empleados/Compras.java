@@ -202,6 +202,7 @@ public class Compras extends javax.swing.JFrame {
     public Compras(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         MostrarCombo2();
         RegTabla();

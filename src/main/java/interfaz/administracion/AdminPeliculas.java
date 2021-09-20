@@ -237,6 +237,7 @@ public class AdminPeliculas extends javax.swing.JFrame{
     public AdminPeliculas(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         RegTabla();
     }

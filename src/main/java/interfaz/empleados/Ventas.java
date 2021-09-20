@@ -205,6 +205,7 @@ public class Ventas extends javax.swing.JFrame {
     public Ventas(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         MostrarCombo2();
         RegTabla();

@@ -241,6 +241,7 @@ public class AdminEmpleados extends javax.swing.JFrame {
     public AdminEmpleados(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         RegTabla();
     }

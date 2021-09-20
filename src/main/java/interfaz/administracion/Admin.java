@@ -19,6 +19,7 @@ public class Admin extends javax.swing.JFrame {
     public Admin() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -89,7 +90,7 @@ public class Admin extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 100, -1));
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 120, -1));
 
         jButton8.setText("Desconectar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +98,7 @@ public class Admin extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 100, -1));
+        getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 140, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

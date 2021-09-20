@@ -87,6 +87,7 @@ public class Kardex extends javax.swing.JFrame {
     public Kardex() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         RegTabla();
         RegTabla2();
     }

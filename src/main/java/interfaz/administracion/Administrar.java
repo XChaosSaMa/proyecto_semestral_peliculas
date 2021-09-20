@@ -6,6 +6,7 @@ public class Administrar extends javax.swing.JFrame {
     public Administrar() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
 

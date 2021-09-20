@@ -242,6 +242,7 @@ public class AdminProveedores extends javax.swing.JFrame {
     public AdminProveedores(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         RegTabla();
     }

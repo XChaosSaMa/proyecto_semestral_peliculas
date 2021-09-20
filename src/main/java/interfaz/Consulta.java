@@ -52,7 +52,9 @@ public class Consulta extends javax.swing.JFrame {
     public Consulta() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         RegTabla();
+        
     }
 
     /**

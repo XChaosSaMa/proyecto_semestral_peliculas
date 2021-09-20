@@ -213,6 +213,7 @@ public class UsuarioClientes extends javax.swing.JFrame {
     public UsuarioClientes(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         RegTabla();
     }

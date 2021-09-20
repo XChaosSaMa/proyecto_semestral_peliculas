@@ -238,6 +238,7 @@ public class UsuarioPeliculas extends javax.swing.JFrame{
     public UsuarioPeliculas(){
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
         MostrarCombo();
         RegTabla();
     }
